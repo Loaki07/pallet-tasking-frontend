@@ -20,9 +20,10 @@ import {
 } from "react-bootstrap";
 import { BsFileRichtext } from "react-icons/bs";
 
-import "./CreateTaskFormFormik.css";
+import "./TaskFormFormik.css";
 import FormErrorMessage from "./FormErrorMessage";
 import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
+import * as constants from "./constants";
 
 const initialValues = {
     accountId: "",
@@ -38,8 +39,60 @@ const validationSchema = Yup.object({
     taskDescription: Yup.string().required("Required!"),
 });
 
-const CreateTaskFormFormik = ({ configForBackEnd }) => {
+const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
     const { api, keyring } = configForBackEnd;
+    const { formType, data } = formTypeAndData;
+    // console.log(JSON.stringify(formType));
+    console.log(data);
+
+    const [formConfig, setFormConfig] = useState({
+        requestorName: "",
+        accountId: "",
+        taskDuration: "",
+        taskCost: "",
+        taskDescription: "",
+        isFieldDisabled: false,
+    });
+
+    const configForForm = () => {
+        console.log(`configForForm ${formType.type}`);
+        switch (formType.type) {
+            case constants.FORM_TYPES.CREATE_TASK.type:
+                console.log(`create`);
+                return setFormConfig({
+                    requestorName: "Alice",
+                    accountId: palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE,
+                    taskDuration: "",
+                    taskCost: "",
+                    taskDescription: "",
+                    isFieldDisabled: false,
+                });
+            case constants.FORM_TYPES.BID_FOR_TASK.type:
+            case constants.FORM_TYPES.COMPLETE_TASK.type:
+                console.log(`bid and complete`);
+                return setFormConfig({
+                    requestorName: "Bob",
+                    accountId: palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.BOB,
+                    taskDuration: data.task_deadline,
+                    taskCost: data.cost,
+                    taskDescription: data.task_description,
+                    isFieldDisabled: true,
+                });
+
+            case constants.FORM_TYPES.APPROVE_TASK.type:
+                console.log(`approve`);
+                return setFormConfig({
+                    requestorName: "Alice",
+                    accountId: palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE,
+                    taskDuration: data.task_deadline,
+                    taskCost: data.cost,
+                    taskDescription: data.task_description,
+                    isFieldDisabled: true,
+                });
+            default:
+                break;
+        }
+    };
 
     const handleFormSubmit = async (data) => {
         let AliceFromKeyRing = keyring.getAccount(
@@ -48,15 +101,24 @@ const CreateTaskFormFormik = ({ configForBackEnd }) => {
         let alice = keyring.getPair(AliceFromKeyRing.address);
 
         const unit = 1000000000000;
-        
-        await palletTaskingFunctions.createTaskTx(
-            api,
-            alice,
-            data.taskDuration,
-            data.taskCost * unit,
-            data.taskDescription
-        );
+
+        console.log(`data: ${JSON.stringify(data)}`);
+
+        // await palletTaskingFunctions.createTaskTx(
+        //     api,
+        //     alice,
+        //     data.taskDuration,
+        //     data.taskCost * unit,
+        //     data.taskDescription
+        // );
     };
+
+    useEffect(() => {
+        configForForm();
+    }, []);
+
+    console.log(formConfig);
+
     return (
         <>
             <Formik
@@ -80,32 +142,68 @@ const CreateTaskFormFormik = ({ configForBackEnd }) => {
                         <Card className="text-left form p-3">
                             <Card.Body className="form-body">
                                 <FormLabelAndInput
-                                    placeholder={`AccounId`}
+                                    placeholder={
+                                        !formConfig.isFieldDisabled
+                                            ? `AccounId`
+                                            : ""
+                                    }
                                     name="accountId"
-                                    type="number"
-                                    label="AccounId"
+                                    type={
+                                        !formConfig.isFieldDisabled
+                                            ? "number"
+                                            : "text"
+                                    }
+                                    label="AccountId"
                                     helperText={""}
+                                    value={formConfig.accountId}
+                                    isDisabled={formConfig.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
-                                    placeholder={`TaskDuration`}
+                                    placeholder={
+                                        !formConfig.isFieldDisabled
+                                            ? `TaskDuration`
+                                            : ""
+                                    }
                                     name="taskDuration"
-                                    type="number"
+                                    type={
+                                        !formConfig.isFieldDisabled
+                                            ? "number"
+                                            : "text"
+                                    }
                                     label="Task Duration"
                                     helperText={""}
+                                    value={formConfig.taskDuration}
+                                    isDisabled={formConfig.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
-                                    placeholder={`TaskCost`}
+                                    placeholder={
+                                        !formConfig.isFieldDisabled
+                                            ? `TaskCost`
+                                            : ""
+                                    }
                                     name="taskCost"
-                                    type="number"
+                                    type={
+                                        !formConfig.isFieldDisabled
+                                            ? "number"
+                                            : "text"
+                                    }
                                     label="Task Cost"
                                     helperText={""}
+                                    value={formConfig.taskCost}
+                                    isDisabled={formConfig.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
-                                    placeholder={`TaskDescription`}
+                                    placeholder={
+                                        !formConfig.isFieldDisabled
+                                            ? `TaskDescription`
+                                            : ""
+                                    }
                                     name="taskDescription"
                                     type="text"
                                     label="Task Description"
                                     helperText={""}
+                                    value={formConfig.taskDescription}
+                                    isDisabled={formConfig.isFieldDisabled}
                                 />
                             </Card.Body>
                             <Card.Footer className="d-flex justify-content-between aligin-items-center">
@@ -220,4 +318,4 @@ const FormCheckBoxAndText = ({ text, ...props }) => {
     );
 };
 
-export default CreateTaskFormFormik;
+export default TaskFormFormik;

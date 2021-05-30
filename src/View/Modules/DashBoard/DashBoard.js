@@ -10,7 +10,9 @@ import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
 import * as actionCreators from "./actionCreators";
 import "./Dashboard.css";
 import TaskCard from "./TaskCard";
-import CreateTaskFormFormik from "./CreateTaskFormFormik";
+import TaskFormFormik from "./TaskFormFormik";
+import * as constants from "./constants";
+import { BsTextIndentLeft } from "react-icons/bs";
 
 const DashBoard = (props) => {
     const { api, keyring } = useSubstrate();
@@ -19,6 +21,10 @@ const DashBoard = (props) => {
     const tasks = useSelector((state) => state.dashBoardReducer.tasks);
 
     const [show, setShow] = useState(false);
+    const [currentFormTypeAndData, setCurrentFormTypeAndData] = useState({
+        formType: constants.FORM_TYPES.CREATE_TASK,
+        data: "",
+    });
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -45,6 +51,26 @@ const DashBoard = (props) => {
         init();
     }, [api?.query.palletTasking]);
 
+    const showFormModal = (e, data) => {
+        const formTypeOnClick = e.target.name;
+        const title =
+            formTypeOnClick === constants.FORM_TYPES.CREATE_TASK.type
+                ? constants.FORM_TYPES.CREATE_TASK.title
+                : formTypeOnClick === constants.FORM_TYPES.BID_FOR_TASK.type
+                ? constants.FORM_TYPES.BID_FOR_TASK.title
+                : formTypeOnClick === constants.FORM_TYPES.COMPLETE_TASK.type
+                ? constants.FORM_TYPES.COMPLETE_TASK.title
+                : formTypeOnClick === constants.FORM_TYPES.APPROVE_TASK.type
+                ? constants.FORM_TYPES.APPROVE_TASK.title
+                : "Form";
+
+        setCurrentFormTypeAndData({
+            formType: { type: e.target.name, title },
+            data: data,
+        });
+        handleShow();
+    };
+
     return (
         <>
             <AppHeader />
@@ -52,38 +78,57 @@ const DashBoard = (props) => {
                 <Row className="p-5">
                     <div className="d-flex justify-content-between align-items-center">
                         <h2 style={{ margin: "0" }}>All Tasks</h2>
-                        <Button onClick={handleShow}>Create New Task</Button>
+                        <Button
+                            name={constants.FORM_TYPES.CREATE_TASK.type}
+                            onClick={(e) => showFormModal(e, "")}
+                        >
+                            Create New Task
+                        </Button>
                     </div>
                 </Row>
                 <Row>
                     {tasks.length ? (
                         tasks.map((task, index) => (
                             <Col key={index} xs={1} md={4} lg={4}>
-                                <TaskCard data={task} />
+                                <TaskCard
+                                    data={task}
+                                    showFormModal={showFormModal}
+                                />
                             </Col>
                         ))
                     ) : (
                         <div>No Tasks</div>
                     )}
                 </Row>
-                <CreateTaskModal
+                <TaskModal
                     show={show}
                     handleClose={handleClose}
                     configForBackEnd={{ api, keyring }}
+                    formTypeAndData={currentFormTypeAndData}
                 />
             </Container>
         </>
     );
 };
 
-const CreateTaskModal = ({ show, handleClose, configForBackEnd }) => {
+const TaskModal = ({
+    show,
+    handleClose,
+    configForBackEnd,
+    formTypeAndData,
+}) => {
+    const { formType } = formTypeAndData;
+    const { type, title } = formType;
     return (
         <Modal show={show} onHide={handleClose}>
-            <Modal.Header>
-                <Modal.Title>Create Task Form</Modal.Title>
+            <Modal.Header closeButton>
+                <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <CreateTaskFormFormik configForBackEnd={configForBackEnd} />
+                <TaskFormFormik
+                    configForBackEnd={configForBackEnd}
+                    formTypeAndData={formTypeAndData}
+                />
             </Modal.Body>
         </Modal>
     );

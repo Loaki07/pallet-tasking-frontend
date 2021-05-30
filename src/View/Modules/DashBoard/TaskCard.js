@@ -2,8 +2,9 @@ import React from "react";
 import { Badge, Card, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
+import * as constants from "./constants";
 
-const TaskCard = ({ data }) => {
+const TaskCard = ({ data, showFormModal }) => {
     const history = useHistory();
     const {
         task_id,
@@ -25,18 +26,48 @@ const TaskCard = ({ data }) => {
             ? {
                   badgeColor: "yellow",
                   button: [
-                      <Button key={0} variant="primary">Complete</Button>,
-                      <Button key={1} variant="success">Approve</Button>,
+                      <Button
+                          key={0}
+                          variant="primary"
+                          name={constants.FORM_TYPES.COMPLETE_TASK.type}
+                          onClick={(e) => showFormModal(e, data)}
+                      >
+                          Complete
+                      </Button>,
+                      <Button
+                          key={1}
+                          variant="success"
+                          name={constants.FORM_TYPES.APPROVE_TASK.type}
+                          onClick={(e) => showFormModal(e, data)}
+                      >
+                          Approve
+                      </Button>,
                   ],
               }
             : status === "PendingApproval"
             ? {
                   badgeColor: "red",
-                  button: <Button variant="success">Approve</Button>,
+                  button: (
+                      <Button
+                          variant="success"
+                          name={constants.FORM_TYPES.APPROVE_TASK.type}
+                          onClick={(e) => showFormModal(e, data)}
+                      >
+                          Approve
+                      </Button>
+                  ),
               }
             : {
                   badgeColor: "blue",
-                  button: <Button variant="warning">Bid</Button>,
+                  button: (
+                      <Button
+                          variant="warning"
+                          name={constants.FORM_TYPES.BID_FOR_TASK.type}
+                          onClick={(e) => showFormModal(e, data)}
+                      >
+                          Bid
+                      </Button>
+                  ),
               };
 
     return (
