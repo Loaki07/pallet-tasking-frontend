@@ -52,6 +52,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
         taskCost: "",
         taskDescription: "",
         isFieldDisabled: false,
+        submitButtonName: "Submit",
     });
 
     const configForForm = () => {
@@ -66,6 +67,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                     taskCost: "",
                     taskDescription: "",
                     isFieldDisabled: false,
+                    submitButtonName: "Create",
                 });
             case constants.FORM_TYPES.BID_FOR_TASK.type:
             case constants.FORM_TYPES.COMPLETE_TASK.type:
@@ -77,6 +79,10 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                     taskCost: data.cost,
                     taskDescription: data.task_description,
                     isFieldDisabled: true,
+                    submitButtonName:
+                        formType.type === constants.FORM_TYPES.BID_FOR_TASK.type
+                            ? "Bid"
+                            : "Complete",
                 });
 
             case constants.FORM_TYPES.APPROVE_TASK.type:
@@ -88,6 +94,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                     taskCost: data.cost,
                     taskDescription: data.task_description,
                     isFieldDisabled: true,
+                    submitButtonName: "Approve",
                 });
             default:
                 break;
@@ -210,8 +217,12 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                 <Button variant="warning" onClick={resetForm}>
                                     <b>Reset</b>
                                 </Button>
-                                <Button variant="dark" type="submit">
-                                    <b>Submit</b>
+                                <Button
+                                    variant="dark"
+                                    type="submit"
+                                    name={formConfig.submitButtonName}
+                                >
+                                    <b>{formConfig.submitButtonName}</b>
                                 </Button>
                             </Card.Footer>
                         </Card>
