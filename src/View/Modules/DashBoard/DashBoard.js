@@ -66,20 +66,24 @@ const DashBoard = (props) => {
                         <div>No Tasks</div>
                     )}
                 </Row>
-                <CreateTaskModal show={show} handleClose={handleClose} />
+                <CreateTaskModal
+                    show={show}
+                    handleClose={handleClose}
+                    configForBackEnd={{ api, keyring }}
+                />
             </Container>
         </>
     );
 };
 
-const CreateTaskModal = ({ show, handleClose }) => {
+const CreateTaskModal = ({ show, handleClose, configForBackEnd }) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header>
                 <Modal.Title>Create Task Form</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <CreateTaskFormFormik />
+                <CreateTaskFormFormik configForBackEnd={configForBackEnd} />
             </Modal.Body>
         </Modal>
     );

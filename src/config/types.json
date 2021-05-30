@@ -1,4 +1,5 @@
 {
+    "Balance": "u128",
     "TaskDetails": {
         "task_id": "u128",
         "client": "AccountId",

@@ -22,7 +22,7 @@ import { BsFileRichtext } from "react-icons/bs";
 
 import "./CreateTaskFormFormik.css";
 import FormErrorMessage from "./FormErrorMessage";
-import { Link } from "react-router-dom";
+import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
 
 const initialValues = {
     accountId: "",
@@ -37,6 +37,92 @@ const validationSchema = Yup.object({
     taskCost: Yup.number().required("Required!"),
     taskDescription: Yup.string().required("Required!"),
 });
+
+const CreateTaskFormFormik = ({ configForBackEnd }) => {
+    const { api, keyring } = configForBackEnd;
+
+    const handleFormSubmit = async (data) => {
+        let AliceFromKeyRing = keyring.getAccount(
+            palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE
+        );
+        let alice = keyring.getPair(AliceFromKeyRing.address);
+
+        const unit = 1000000000000;
+        
+        await palletTaskingFunctions.createTaskTx(
+            api,
+            alice,
+            data.taskDuration,
+            data.taskCost * unit,
+            data.taskDescription
+        );
+    };
+    return (
+        <>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={async (data, { setSubmitting, resetForm }) => {
+                    setSubmitting(true);
+                    handleFormSubmit(data);
+                    setSubmitting(false);
+                    resetForm();
+                }}
+            >
+                {({
+                    values,
+                    errors,
+                    isSubmitting,
+                    resetForm,
+                    handleSubmit,
+                }) => (
+                    <FormikForm>
+                        <Card className="text-left form p-3">
+                            <Card.Body className="form-body">
+                                <FormLabelAndInput
+                                    placeholder={`AccounId`}
+                                    name="accountId"
+                                    type="number"
+                                    label="AccounId"
+                                    helperText={""}
+                                />
+                                <FormLabelAndInput
+                                    placeholder={`TaskDuration`}
+                                    name="taskDuration"
+                                    type="number"
+                                    label="Task Duration"
+                                    helperText={""}
+                                />
+                                <FormLabelAndInput
+                                    placeholder={`TaskCost`}
+                                    name="taskCost"
+                                    type="number"
+                                    label="Task Cost"
+                                    helperText={""}
+                                />
+                                <FormLabelAndInput
+                                    placeholder={`TaskDescription`}
+                                    name="taskDescription"
+                                    type="text"
+                                    label="Task Description"
+                                    helperText={""}
+                                />
+                            </Card.Body>
+                            <Card.Footer className="d-flex justify-content-between aligin-items-center">
+                                <Button variant="warning" onClick={resetForm}>
+                                    <b>Reset</b>
+                                </Button>
+                                <Button variant="dark" type="submit">
+                                    <b>Submit</b>
+                                </Button>
+                            </Card.Footer>
+                        </Card>
+                    </FormikForm>
+                )}
+            </Formik>
+        </>
+    );
+};
 
 const FormLabelAndInput = ({ label, helperText, isDisabled, ...props }) => {
     const [field, meta] = useField(props);
@@ -131,84 +217,6 @@ const FormCheckBoxAndText = ({ text, ...props }) => {
                 component={FormErrorMessage}
             ></ErrorMessage>
         </Form.Group>
-    );
-};
-
-const CreateTaskFormFormik = () => {
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [showResult, setResult] = useState(false);
-    const [isConfirm, setIsConfirm] = useState(false);
-    const [response, setResponse] = useState("");
-
-    useEffect(() => {
-        console.log(`updating ${isConfirm}`);
-    }, [isConfirm]);
-
-    const handleFormSubmit = async (data) => {};
-    return (
-        <>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={async (data, { setSubmitting, resetForm }) => {
-                    setSubmitting(true);
-                    console.log("submit: ", data);
-                    setSubmitting(false);
-                    resetForm();
-                }}
-            >
-                {({
-                    values,
-                    errors,
-                    isSubmitting,
-                    resetForm,
-                    handleSubmit,
-                }) => (
-                    <FormikForm>
-                        <Card className="text-left form p-3">
-                            <Card.Body className="form-body">
-                                <FormLabelAndInput
-                                    placeholder={`AccounId`}
-                                    name="accountId"
-                                    type="number"
-                                    label="AccounId"
-                                    helperText={""}
-                                />
-                                <FormLabelAndInput
-                                    placeholder={`TaskDuration`}
-                                    name="taskDuration"
-                                    type="number"
-                                    label="Task Duration"
-                                    helperText={""}
-                                />
-                                <FormLabelAndInput
-                                    placeholder={`TaskCost`}
-                                    name="taskCost"
-                                    type="number"
-                                    label="Task Cost"
-                                    helperText={""}
-                                />
-                                <FormLabelAndInput
-                                    placeholder={`TaskDescription`}
-                                    name="taskDescription"
-                                    type="text"
-                                    label="Task Description"
-                                    helperText={""}
-                                />
-                            </Card.Body>
-                            <Card.Footer className="d-flex justify-content-between aligin-items-center">
-                                <Button variant="warning" onClick={resetForm}>
-                                    <b>Reset</b>
-                                </Button>
-                                <Button variant="dark" type="submit">
-                                    <b>Submit</b>
-                                </Button>
-                            </Card.Footer>
-                        </Card>
-                    </FormikForm>
-                )}
-            </Formik>
-        </>
     );
 };
 
