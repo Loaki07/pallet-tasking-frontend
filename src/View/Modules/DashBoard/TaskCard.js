@@ -25,8 +25,8 @@ const TaskCard = ({ data }) => {
             ? {
                   badgeColor: "yellow",
                   button: [
-                      <Button variant="primary">Complete</Button>,
-                      <Button variant="success">Approve</Button>,
+                      <Button key={0} variant="primary">Complete</Button>,
+                      <Button key={1} variant="success">Approve</Button>,
                   ],
               }
             : status === "PendingApproval"

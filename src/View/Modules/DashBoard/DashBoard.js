@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,12 +10,18 @@ import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
 import * as actionCreators from "./actionCreators";
 import "./Dashboard.css";
 import TaskCard from "./TaskCard";
+import CreateTaskFormFormik from "./CreateTaskFormFormik";
 
 const DashBoard = (props) => {
     const { api, keyring } = useSubstrate();
     const dispatch = useDispatch();
 
     const tasks = useSelector((state) => state.dashBoardReducer.tasks);
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         const init = async () => {
@@ -43,11 +49,16 @@ const DashBoard = (props) => {
         <>
             <AppHeader />
             <Container className="dashboard-container">
-                <Row>All Tasks</Row>
+                <Row className="p-5">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <h2 style={{ margin: "0" }}>All Tasks</h2>
+                        <Button onClick={handleShow}>Create New Task</Button>
+                    </div>
+                </Row>
                 <Row>
                     {tasks.length ? (
-                        tasks.map((task) => (
-                            <Col xs={1} md={4} lg={4}>
+                        tasks.map((task, index) => (
+                            <Col key={index} xs={1} md={4} lg={4}>
                                 <TaskCard data={task} />
                             </Col>
                         ))
@@ -55,15 +66,23 @@ const DashBoard = (props) => {
                         <div>No Tasks</div>
                     )}
                 </Row>
+                <CreateTaskModal show={show} handleClose={handleClose} />
             </Container>
         </>
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        tasks: state.dashBoardReducer.tasks,
-    };
+const CreateTaskModal = ({ show, handleClose }) => {
+    return (
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header>
+                <Modal.Title>Create Task Form</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <CreateTaskFormFormik />
+            </Modal.Body>
+        </Modal>
+    );
 };
 
-export default connect(mapStateToProps, {})(DashBoard);
+export default DashBoard;
