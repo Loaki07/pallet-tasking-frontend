@@ -1,0 +1,14 @@
+.dashboard-container {
+    height: 100vh;
+}
+
+.task-card {
+    margin: 5px;
+    padding: 10px;
+    height: 300px;
+    width: 300px;
+    border-radius: 12px;
+    box-shadow: 4px 4px 4px rgb(151 167 195 / 44%), -4px -4px 4px #fff;
+    text-decoration: none;
+    gap: 10px;
+}

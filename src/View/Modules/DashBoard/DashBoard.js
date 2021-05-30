@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,6 +8,8 @@ import { useSubstrate } from "../../../substrate-lib";
 import TestingSubstrateLib from "../../../TestingSubstrateLib";
 import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
 import * as actionCreators from "./actionCreators";
+import "./Dashboard.css";
+import TaskCard from "./TaskCard";
 
 const DashBoard = (props) => {
     const { api, keyring } = useSubstrate();
@@ -40,14 +42,19 @@ const DashBoard = (props) => {
     return (
         <>
             <AppHeader />
-            <Container
-                style={{
-                    background: "#181a1b",
-                    color: "white",
-                    height: "100vh",
-                }}
-            >
-                <div>DashBoard</div>
+            <Container className="dashboard-container">
+                <Row>All Tasks</Row>
+                <Row>
+                    {tasks.length ? (
+                        tasks.map((task) => (
+                            <Col xs={1} md={4} lg={4}>
+                                <TaskCard data={task} />
+                            </Col>
+                        ))
+                    ) : (
+                        <div>No Tasks</div>
+                    )}
+                </Row>
             </Container>
         </>
     );

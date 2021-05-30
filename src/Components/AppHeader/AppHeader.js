@@ -6,7 +6,7 @@ import "./AppHeader.css";
 
 const AppHeader = () => {
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="light">
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href="#home">
                     <Image
