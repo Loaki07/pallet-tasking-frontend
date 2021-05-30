@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import App from "./App";
 import configureStore from "./store";
+import "./constants/colors.css";
+import "./constants/constants.css";
 
 const { store, persistor } = configureStore();
 

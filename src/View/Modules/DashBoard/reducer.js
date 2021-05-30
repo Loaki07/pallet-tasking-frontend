@@ -1,6 +1,8 @@
 import { GET_TASKS } from "./constants";
 
 const initialState = {
+    api: null,
+    keyringAccounts: null,
     tasks: [],
 };
 
