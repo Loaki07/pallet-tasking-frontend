@@ -99,20 +99,16 @@ const DashBoard = (props) => {
                 <Row>
                     {tasks.length
                         ? tasks.map((task, index) => (
-                              <Col key={index} xs={1} md={4} lg={4}>
-                                  <TaskCard
-                                      data={task}
-                                      showFormModal={showFormModal}
-                                  />
-                              </Col>
+                              <TaskCard
+                                  data={task}
+                                  showFormModal={showFormModal}
+                              />
                           ))
                         : staticData.data.map((task, index) => (
-                              <Col key={index} xs={1} md={4} lg={4}>
-                                  <TaskCard
-                                      data={task}
-                                      showFormModal={showFormModal}
-                                  />
-                              </Col>
+                              <TaskCard
+                                  data={task}
+                                  showFormModal={showFormModal}
+                              />
                           ))}
                 </Row>
                 <TaskModal

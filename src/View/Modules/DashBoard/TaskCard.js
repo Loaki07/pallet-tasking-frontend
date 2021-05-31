@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Card, Button } from "react-bootstrap";
+import { Badge, Card, Button, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import * as constants from "./constants";
@@ -71,39 +71,47 @@ const TaskCard = ({ data, showFormModal }) => {
               };
 
     return (
-        <Card
-            className="task-card  p-4"
-            // onClick={() => history.push(`/task/${task.task_id}`)}
+        <Col
+            xs={12}
+            sm={12}
+            md={4}
+            lg={4}
+            className="d-flex justify-content-center align-items-center"
         >
-            <Card.Body>
-                <Card.Text>
-                    {_.capitalize(task_description)}
-                    <Badge
-                        variant={attributesForCard.badgeColor}
-                        className={`px-2 mx-2`}
-                        style={{
-                            display: "inline",
-                            color: `${
-                                attributesForCard.badgeColor === "yellow"
-                                    ? "black"
-                                    : "white"
-                            }`,
-                            backgroundColor: `${attributesForCard.badgeColor}`,
-                            borderRadius: "10px",
-                        }}
-                    >
-                        {status}
-                    </Badge>
-                </Card.Text>
-                <Card.Text>Client: {client}</Card.Text>
-                <Card.Text>TaskId: {task_id}</Card.Text>
-                <Card.Text>TaskDeadline: {task_deadline}</Card.Text>
-                <Card.Text>TaskCost: {cost}</Card.Text>
-            </Card.Body>
-            <Card.Footer className="d-flex justify-content-between align-items-center">
-                {attributesForCard.button}
-            </Card.Footer>
-        </Card>
+            <Card
+                className="task-card  p-4"
+                // onClick={() => history.push(`/task/${task.task_id}`)}
+            >
+                <Card.Body>
+                    <Card.Text>
+                        {_.capitalize(task_description)}
+                        <Badge
+                            variant={attributesForCard.badgeColor}
+                            className={`px-2 mx-2`}
+                            style={{
+                                display: "inline",
+                                color: `${
+                                    attributesForCard.badgeColor === "yellow"
+                                        ? "black"
+                                        : "white"
+                                }`,
+                                backgroundColor: `${attributesForCard.badgeColor}`,
+                                borderRadius: "10px",
+                            }}
+                        >
+                            {status}
+                        </Badge>
+                    </Card.Text>
+                    <Card.Text>Client: {client}</Card.Text>
+                    <Card.Text>TaskId: {task_id}</Card.Text>
+                    <Card.Text>TaskDeadline: {task_deadline}</Card.Text>
+                    <Card.Text>TaskCost: {cost}</Card.Text>
+                </Card.Body>
+                <Card.Footer className="d-flex justify-content-between align-items-center">
+                    {attributesForCard.button}
+                </Card.Footer>
+            </Card>
+        </Col>
     );
 };
 
