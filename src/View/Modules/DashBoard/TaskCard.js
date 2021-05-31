@@ -96,6 +96,7 @@ const TaskCard = ({ data, showFormModal }) => {
                     </Badge>
                 </Card.Text>
                 <Card.Text>Client: {client}</Card.Text>
+                <Card.Text>TaskId: {task_id}</Card.Text>
                 <Card.Text>TaskDeadline: {task_deadline}</Card.Text>
                 <Card.Text>TaskCost: {cost}</Card.Text>
             </Card.Body>
