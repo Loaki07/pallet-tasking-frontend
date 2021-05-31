@@ -36,7 +36,7 @@ const DashBoard = (props) => {
     useEffect(() => {
         const init = async () => {
             try {
-                // palletTaskingFunctions.handleOnChainEvents(api, toast);
+                palletTaskingFunctions.handleOnChainEvents(api, toast);
                 const getTasksResult = await palletTaskingFunctions.getAllTasks(
                     api
                 );
@@ -81,7 +81,7 @@ const DashBoard = (props) => {
             <Container className="dashboard-container">
                 <Row className="p-5">
                     <div className="d-flex justify-content-between align-items-center">
-                        <h2 style={{ margin: "0" }}>All Tasks</h2>
+                        <h2 style={{ margin: "0" }}>Marketplace</h2>
                         <Button
                             name={constants.FORM_TYPES.CREATE_TASK.type}
                             onClick={(e) => showFormModal(e, null)}
