@@ -80,7 +80,7 @@ const DashBoard = (props) => {
                         <h2 style={{ margin: "0" }}>All Tasks</h2>
                         <Button
                             name={constants.FORM_TYPES.CREATE_TASK.type}
-                            onClick={(e) => showFormModal(e, "")}
+                            onClick={(e) => showFormModal(e, null)}
                         >
                             Create New Task
                         </Button>

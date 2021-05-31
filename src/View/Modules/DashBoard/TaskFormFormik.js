@@ -25,89 +25,66 @@ import FormErrorMessage from "./FormErrorMessage";
 import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
 import * as constants from "./constants";
 
-const initialValues = {
+let initialValues = {
+    requestorName: "",
     accountId: "",
     taskId: "",
     taskDuration: "",
     taskCost: "",
     taskDescription: "",
+    isFieldDisabled: false,
+    submitButtonName: "Submit",
 };
 
-const validationSchema = Yup.object({
-    accountId: Yup.number().required("Required!"),
-    taskId: Yup.number(),
-    taskDuration: Yup.number().required("Required!"),
-    taskCost: Yup.number().required("Required!"),
-    taskDescription: Yup.string().required("Required!"),
-});
+// const validationSchema = Yup.object({
+//     taskId: Yup.number(),
+//     taskDuration: Yup.number().required("Required!"),
+//     taskCost: Yup.number().required("Required!"),
+//     taskDescription: Yup.string().required("Required!"),
+// });
 
 const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
     const { api, keyring } = configForBackEnd;
     const { formType, data } = formTypeAndData;
 
-    console.log(data);
-    const [formConfig, setFormConfig] = useState({
-        requestorName: "",
-        accountId: "",
-        taskId: "",
-        taskDuration: "",
-        taskCost: "",
-        taskDescription: "",
-        isFieldDisabled: false,
-        submitButtonName: "Submit",
-    });
-
     const configForForm = () => {
         switch (formType.type) {
             case constants.FORM_TYPES.CREATE_TASK.type:
-                return setFormConfig({
-                    requestorName: "Alice",
-                    accountId: palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE,
-                    taskId: "",
-                    taskDuration: "",
-                    taskCost: "",
-                    taskDescription: "",
-                    isFieldDisabled: false,
-                    submitButtonName: "Create",
-                });
+                initialValues.requestorName = "Alice";
+                initialValues.accountId =
+                    palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE;
+                initialValues.isFieldDisabled = false;
+                initialValues.submitButtonName = "Create";
+                return;
             case constants.FORM_TYPES.BID_FOR_TASK.type:
             case constants.FORM_TYPES.COMPLETE_TASK.type:
-                return setFormConfig({
-                    requestorName: "Bob",
-                    accountId: palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.BOB,
-                    taskId: data.task_id,
-                    taskDuration: data.task_deadline,
-                    taskCost: data.cost,
-                    taskDescription: data.task_description,
-                    isFieldDisabled: true,
-                    submitButtonName:
-                        formType.type === constants.FORM_TYPES.BID_FOR_TASK.type
-                            ? "Bid"
-                            : "Complete",
-                });
+                initialValues.requestorName = "Bob";
+                initialValues.accountId =
+                    palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.BOB;
+                initialValues.taskId = data.task_id;
+                initialValues.taskDuration = data.task_deadline;
+                initialValues.taskCost = data.cost;
+                initialValues.taskDescription = data.task_description;
+                initialValues.isFieldDisabled = true;
+                initialValues.submitButtonName =
+                    formType.type === constants.FORM_TYPES.BID_FOR_TASK.type
+                        ? "Bid"
+                        : "Complete";
+                return;
 
             case constants.FORM_TYPES.APPROVE_TASK.type:
-                return setFormConfig({
-                    requestorName: "Alice",
-                    accountId: palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE,
-                    taskId: data.task_id,
-                    taskDuration: data.task_deadline,
-                    taskCost: data.cost,
-                    taskDescription: data.task_description,
-                    isFieldDisabled: true,
-                    submitButtonName: "Approve",
-                });
+                initialValues.requestorName = "Alice";
+                initialValues.accountId =
+                    palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE;
+                initialValues.taskId = data.task_id;
+                initialValues.taskDuration = data.task_deadline;
+                initialValues.taskCost = data.cost;
+                initialValues.taskDescription = data.task_description;
+                initialValues.isFieldDisabled = true;
+                initialValues.submitButtonName = "Approve";
+                return;
             default:
-                return setFormConfig({
-                    requestorName: "",
-                    accountId: "",
-                    taskId: "",
-                    taskDuration: "",
-                    taskCost: "",
-                    taskDescription: "",
-                    isFieldDisabled: false,
-                    submitButtonName: "Submit",
-                });
+                return;
         }
     };
 
@@ -135,24 +112,24 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                     data.taskDescription
                 );
             case constants.FORM_TYPES.BID_FOR_TASK.type:
-            // return await palletTaskingFunctions.bidForTaskTx(
-            //     api,
-            //     bob,
-            //     data.taskId,
-            // );
+                return await palletTaskingFunctions.bidForTaskTx(
+                    api,
+                    bob,
+                    data.taskId
+                );
             case constants.FORM_TYPES.COMPLETE_TASK.type:
-            // return await palletTaskingFunctions.taskCompletedTx(
-            //     api,
-            //     bob,
-            //     data.taskId,
-            // );
+                return await palletTaskingFunctions.taskCompletedTx(
+                    api,
+                    bob,
+                    data.taskId
+                );
 
             case constants.FORM_TYPES.APPROVE_TASK.type:
-            // return await palletTaskingFunctions.approveTaskTx(
-            //     api,
-            //     alice,
-            //     data.taskId,
-            // );
+                return await palletTaskingFunctions.approveTaskTx(
+                    api,
+                    alice,
+                    data.taskId
+                );
             default:
                 break;
         }
@@ -166,7 +143,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
         <>
             <Formik
                 initialValues={initialValues}
-                validationSchema={validationSchema}
+                // validationSchema={!validationSchema && ""}
                 onSubmit={async (data, { setSubmitting, resetForm }) => {
                     setSubmitting(true);
                     handleFormSubmit(data);
@@ -198,8 +175,8 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                     }
                                     label="AccountId"
                                     helperText={""}
-                                    defaultValue={formConfig.accountId.toString()}
-                                    // isDisabled={formConfig.isFieldDisabled}
+                                    // value={values.accountId.toString()}
+                                    isDisabled={formConfig.isFieldDisabled}
                                 />
                                 {formType.type !==
                                     constants.FORM_TYPES.CREATE_TASK.type && (
@@ -217,7 +194,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                         }
                                         label="TaskId"
                                         helperText={""}
-                                        defaultValue={formConfig.taskId}
+                                        // value={values.taskId}
                                         isDisabled={formConfig.isFieldDisabled}
                                     />
                                 )}
@@ -235,7 +212,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                     }
                                     label="Task Duration"
                                     helperText={""}
-                                    defaultValue={formConfig.taskDuration}
+                                    // value={values.taskDuration}
                                     isDisabled={formConfig.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
@@ -252,7 +229,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                     }
                                     label="Task Cost"
                                     helperText={""}
-                                    defaultValue={formConfig.taskCost}
+                                    // value={values.taskCost}
                                     isDisabled={formConfig.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
@@ -265,7 +242,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                     type="text"
                                     label="Task Description"
                                     helperText={""}
-                                    defaultValue={formConfig.taskDescription}
+                                    // value={values.taskDescription}
                                     isDisabled={formConfig.isFieldDisabled}
                                 />
                             </Card.Body>
