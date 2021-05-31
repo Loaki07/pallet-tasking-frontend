@@ -12,7 +12,7 @@ import "./Dashboard.css";
 import TaskCard from "./TaskCard";
 import TaskFormFormik from "./TaskFormFormik";
 import * as constants from "./constants";
-import { BsTextIndentLeft } from "react-icons/bs";
+import staticData from "../../../assets/staticData/staticData.json";
 
 const DashBoard = (props) => {
     const { api, keyring } = useSubstrate();
@@ -87,18 +87,23 @@ const DashBoard = (props) => {
                     </div>
                 </Row>
                 <Row>
-                    {tasks.length ? (
-                        tasks.map((task, index) => (
-                            <Col key={index} xs={1} md={4} lg={4}>
-                                <TaskCard
-                                    data={task}
-                                    showFormModal={showFormModal}
-                                />
-                            </Col>
-                        ))
-                    ) : (
-                        <div>No Tasks</div>
-                    )}
+                    {tasks.length
+                        ? tasks.map((task, index) => (
+                              <Col key={index} xs={1} md={4} lg={4}>
+                                  <TaskCard
+                                      data={task}
+                                      showFormModal={showFormModal}
+                                  />
+                              </Col>
+                          ))
+                        : staticData.data.map((task, index) => (
+                              <Col key={index} xs={1} md={4} lg={4}>
+                                  <TaskCard
+                                      data={task}
+                                      showFormModal={showFormModal}
+                                  />
+                              </Col>
+                          ))}
                 </Row>
                 <TaskModal
                     show={show}
