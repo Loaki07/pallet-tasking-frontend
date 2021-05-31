@@ -45,7 +45,11 @@ const DashBoard = (props) => {
                         `All Tasks From Chain: ${getTasksResult.length}`
                     );
                     dispatch(
-                        actionCreators.setTasksFromBackEnd([...getTasksResult])
+                        actionCreators.setTasksFromBackEnd([
+                            ...getTasksResult.sort(
+                                (a, b) => b.task_id - a.task_id
+                            ),
+                        ])
                     );
                 }
             } catch (error) {
