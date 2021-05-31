@@ -32,7 +32,7 @@ const TaskCard = ({ data, showFormModal }) => {
                           name={constants.FORM_TYPES.COMPLETE_TASK.type}
                           onClick={(e) => showFormModal(e, data)}
                       >
-                          Complete
+                          <b>Complete</b>
                       </Button>,
                       <Button
                           key={1}
@@ -40,7 +40,7 @@ const TaskCard = ({ data, showFormModal }) => {
                           name={constants.FORM_TYPES.APPROVE_TASK.type}
                           onClick={(e) => showFormModal(e, data)}
                       >
-                          Approve
+                          <b>Approve</b>
                       </Button>,
                   ],
               }
@@ -53,7 +53,7 @@ const TaskCard = ({ data, showFormModal }) => {
                           name={constants.FORM_TYPES.APPROVE_TASK.type}
                           onClick={(e) => showFormModal(e, data)}
                       >
-                          Approve
+                          <b>Approve</b>
                       </Button>
                   ),
               }
@@ -65,7 +65,7 @@ const TaskCard = ({ data, showFormModal }) => {
                           name={constants.FORM_TYPES.BID_FOR_TASK.type}
                           onClick={(e) => showFormModal(e, data)}
                       >
-                          Bid
+                          <b>Bid</b>
                       </Button>
                   ),
               };
@@ -83,13 +83,13 @@ const TaskCard = ({ data, showFormModal }) => {
                 // onClick={() => history.push(`/task/${task.task_id}`)}
             >
                 <Card.Body>
-                    <Card.Text>
-                        {_.capitalize(task_description)}
+                    <Card.Text className="d-flex justify-content-between align-items-center">
+                        <b>{_.capitalize(task_description)}</b>
                         <Badge
                             variant={attributesForCard.badgeColor}
                             className={`px-2 mx-2`}
                             style={{
-                                display: "inline",
+                                display: "table",
                                 color: `${
                                     attributesForCard.badgeColor === "yellow"
                                         ? "black"
@@ -97,17 +97,28 @@ const TaskCard = ({ data, showFormModal }) => {
                                 }`,
                                 backgroundColor: `${attributesForCard.badgeColor}`,
                                 borderRadius: "10px",
+                                padding: "0.4rem",
                             }}
                         >
                             {status}
                         </Badge>
                     </Card.Text>
-                    <Card.Text>Client: {client}</Card.Text>
-                    <Card.Text>TaskId: {task_id}</Card.Text>
-                    <Card.Text>TaskDeadline: {task_deadline}</Card.Text>
-                    <Card.Text>TaskCost: {cost}</Card.Text>
+                    <hr />
+                    <Card.Text>
+                        <b>Client:</b> {client}
+                    </Card.Text>
+                    <Card.Text>
+                        <b>TaskId:</b> {task_id}
+                    </Card.Text>
+                    <Card.Text>
+                        <b>TaskDeadline: </b>
+                        {task_deadline}
+                    </Card.Text>
+                    <Card.Text>
+                        <b>TaskCost:</b> {cost}
+                    </Card.Text>
                 </Card.Body>
-                <Card.Footer className="d-flex justify-content-between align-items-center">
+                <Card.Footer className="card-footer justify-content-center">
                     {attributesForCard.button}
                 </Card.Footer>
             </Card>

@@ -24,7 +24,7 @@ const AppHeader = () => {
                         <Nav.Link href="#Approve">Approve</Nav.Link>
                         <Nav.Link href="#InProgress">InProgress</Nav.Link>
                         <Nav.Link href="#InProgress">Completed</Nav.Link>
-                        <NavDropdown
+                        {/* <NavDropdown
                             title="Dropdown"
                             id="collasible-nav-dropdown"
                         >
@@ -41,14 +41,14 @@ const AppHeader = () => {
                             <NavDropdown.Item href="#action/3.4">
                                 Separated link
                             </NavDropdown.Item>
-                        </NavDropdown>
+                        </NavDropdown> */}
                     </Nav>
-                    <Nav className="ml-auto">
+                    {/* <Nav className="ml-auto">
                         <Nav.Link href="#deets">More</Nav.Link>
                         <Nav.Link eventKey={2} href="#memes">
                             Dank memes
                         </Nav.Link>
-                    </Nav>
+                    </Nav> */}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

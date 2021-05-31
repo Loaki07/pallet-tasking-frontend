@@ -169,7 +169,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                     handleSubmit,
                 }) => (
                     <FormikForm>
-                        <Card className="text-left form p-3">
+                        <Card className="text-left form p-1">
                             <Card.Body className="form-body">
                                 <FormLabelAndInput
                                     placeholder={
@@ -296,7 +296,7 @@ const FormLabelAndInput = ({ label, helperText, isDisabled, ...props }) => {
                 as={FormControl}
                 autoComplete="off"
                 disabled={isDisabled}
-                className="p-4"
+                className="p-2"
             ></Field>
             <span>{helperText}</span>
         </Form.Group>

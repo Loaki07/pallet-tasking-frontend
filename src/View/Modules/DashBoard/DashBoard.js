@@ -132,8 +132,16 @@ const TaskModal = ({
     const { type, title } = formType;
     return (
         <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>{title}</Modal.Title>
+            <Modal.Header>
+                <Modal.Title>
+                    <b>{title}</b>
+                </Modal.Title>
+                <Modal.Title
+                    onClick={handleClose}
+                    style={{ cursor: "pointer" }}
+                >
+                    &#10005;
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <TaskFormFormik
