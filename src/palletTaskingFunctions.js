@@ -49,6 +49,58 @@ export const getAccountsFromKeyRing = () => {
     return { alice, bob };
 };
 
+/**
+ * To Handle Events while making transactions on chain
+ * @param {events} param
+ */
+export const transactionEventHandler = ({ events = [], status }) => {
+    console.log("Transaction status:", status.type);
+    toast.info(`Transaction status: ${status.type}`, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+    });
+
+    if (status.isInBlock) {
+        console.log("Included at block hash", status.asInBlock.toHex());
+        console.log("Events:");
+        toast.info(`Included at block hash ${status.asInBlock.toHex()}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 3000,
+        });
+
+        events.forEach(({ event: { data, method, section }, phase }) => {
+            toast.dark(`\t\t${section}:${method}`, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 9000,
+            });
+            console.log(
+                "\t",
+                phase.toString(),
+                `: ${section}.${method}`,
+                data.toString()
+            );
+        });
+    } else if (status.isFinalized) {
+        console.log("Finalized block hash", status.asFinalized.toHex());
+        toast.success(`Finalized block hash ${status.asFinalized.toHex()}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+        });
+    }
+};
+
+/**
+ * To handle errors in transactions on chain
+ * @param {error} err
+ */
+export const transactionErrorHandler = (err) => {
+    console.log(`Transaction Error: ${err}`);
+    toast.danger(`Transaction Error: ${err}`, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 9000,
+    });
+};
+
 // Sample functions for using pallet balances
 
 /**
@@ -57,10 +109,19 @@ export const getAccountsFromKeyRing = () => {
  * @param {Number} amount
  */
 export const transferTx = async (api, accountIdFromKeyRing, amount) => {
-    if (api === null) return;
-    const transfer = api.tx.balances.transfer(DEFAULT_ACCOUNT_IDS.BOB, amount);
-    const hash = await transfer.signAndSend(accountIdFromKeyRing);
-    console.log("Transfer sent with hash");
+    try {
+        if (api === null) return;
+        const transfer = api.tx.balances.transfer(
+            DEFAULT_ACCOUNT_IDS.BOB,
+            amount
+        );
+        const hash = await transfer.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 /**
@@ -98,58 +159,20 @@ export const createTaskTx = async (
     taskCost,
     taskTitle
 ) => {
-    if (api === null) return;
-    let transaction = await api.tx["palletTasking"]["createTask"](
-        taskDuration,
-        taskCost,
-        taskTitle
-    );
-    await transaction.signAndSend(
-        accountIdFromKeyRing,
-        ({ events = [], status }) => {
-            console.log("Transaction status:", status.type);
-            toast.warning(`Transaction status: ${status.type}`, {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 9000,
-            });
-
-            if (status.isInBlock) {
-                console.log("Included at block hash", status.asInBlock.toHex());
-                console.log("Events:");
-                toast.info(
-                    `Included at block hash ${status.asInBlock.toHex()}`,
-                    {
-                        position: toast.POSITION.TOP_RIGHT,
-                        autoClose: 3000,
-                    }
-                );
-
-                events.forEach(
-                    ({ event: { data, method, section }, phase }) => {
-                        toast.warning(`\t\t${section}:${method}`, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            autoClose: 9000,
-                        });
-                        console.log(
-                            "\t",
-                            phase.toString(),
-                            `: ${section}.${method}`,
-                            data.toString()
-                        );
-                    }
-                );
-            } else if (status.isFinalized) {
-                console.log("Finalized block hash", status.asFinalized.toHex());
-                toast.success(
-                    `Finalized block hash ${status.asFinalized.toHex()}`,
-                    {
-                        position: toast.POSITION.TOP_RIGHT,
-                        autoClose: 3000,
-                    }
-                );
-            }
-        }
-    );
+    try {
+        if (api === null) return;
+        let transaction = await api.tx["palletTasking"]["createTask"](
+            taskDuration,
+            taskCost,
+            taskTitle
+        );
+        await transaction.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 /**
@@ -159,9 +182,16 @@ export const createTaskTx = async (
  * @param {Number} taskId
  */
 export const bidForTaskTx = async (api, accountIdFromKeyRing, taskId) => {
-    if (api === null) return;
-    let transaction = api.tx["palletTasking"]["bidForTask"](taskId);
-    await transaction.signAndSend(accountIdFromKeyRing);
+    try {
+        if (api === null) return;
+        let transaction = api.tx["palletTasking"]["bidForTask"](taskId);
+        await transaction.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 /**
@@ -171,9 +201,16 @@ export const bidForTaskTx = async (api, accountIdFromKeyRing, taskId) => {
  * @param {Number} taskId
  */
 export const approveTaskTx = async (api, accountIdFromKeyRing, taskId) => {
-    if (api === null) return;
-    let transaction = api.tx.palletTasking.approveTask(taskId);
-    await transaction.signAndSend(accountIdFromKeyRing);
+    try {
+        if (api === null) return;
+        let transaction = api.tx.palletTasking.approveTask(taskId);
+        await transaction.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 /**
@@ -183,9 +220,16 @@ export const approveTaskTx = async (api, accountIdFromKeyRing, taskId) => {
  * @param {Number} taskId
  */
 export const taskCompletedTx = async (api, accountIdFromKeyRing, taskId) => {
-    if (api === null) return;
-    let transaction = api.tx.palletTasking.taskCompleted(taskId);
-    await transaction.signAndSend(accountIdFromKeyRing);
+    try {
+        if (api === null) return;
+        let transaction = api.tx.palletTasking.taskCompleted(taskId);
+        await transaction.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 // Accessing chain storage
@@ -247,11 +291,18 @@ export const getAllTasks = async (api) => {
  * @param {Number} accountIdFromKeyRing
  */
 export const increaseCounterTx = async (api, accountIdFromKeyRing) => {
-    if (api === null) return;
-    // api.tx[palletRpc][callable](...transformed)
-    // api.tx[palletRpc][callable]()
-    let transaction = api.tx["palletTasking"]["increaseCounter"]();
-    await transaction.signAndSend(accountIdFromKeyRing);
+    try {
+        if (api === null) return;
+        // api.tx[palletRpc][callable](...transformed)
+        // api.tx[palletRpc][callable]()
+        let transaction = api.tx["palletTasking"]["increaseCounter"]();
+        await transaction.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 /**
@@ -278,9 +329,16 @@ export const getCountFromStorage = async (api) => {
  * @returns
  */
 export const getTaskDetails = async (api, taskId, accountIdFromKeyRing) => {
-    if (api === null) return;
-    let transaction = api.tx.palletTasking.getDataFromStore(taskId);
-    await transaction.signAndSend(accountIdFromKeyRing);
+    try {
+        if (api === null) return;
+        let transaction = api.tx.palletTasking.getDataFromStore(taskId);
+        await transaction.signAndSend(
+            accountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 /**
@@ -297,12 +355,19 @@ export const transferUsingPalletTasking = async (
     toAccountId,
     transferAmount
 ) => {
-    if (api === null) return;
-    let transaction = api.tx.palletTasking.transferMoney(
-        toAccountId,
-        transferAmount
-    );
-    await transaction.signAndSend(fromAccountIdFromKeyRing);
+    try {
+        if (api === null) return;
+        let transaction = api.tx.palletTasking.transferMoney(
+            toAccountId,
+            transferAmount
+        );
+        await transaction.signAndSend(
+            fromAccountIdFromKeyRing,
+            transactionEventHandler
+        );
+    } catch (error) {
+        transactionErrorHandler(error);
+    }
 };
 
 // Handle on chain events
