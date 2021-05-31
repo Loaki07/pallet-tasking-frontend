@@ -15,6 +15,7 @@ import TaskFormFormik from "./TaskFormFormik";
 import * as constants from "./constants";
 import staticData from "../../../assets/staticData/staticData.json";
 import "react-toastify/dist/ReactToastify.min.css";
+import AppFooter from "../../../Components/AppFooter/AppFooter";
 
 toast.configure();
 
@@ -84,7 +85,7 @@ const DashBoard = (props) => {
     return (
         <>
             <AppHeader />
-            <Container className="dashboard-container">
+            <Container className="dashboard-container" style={{marginTop: "50px"}}>
                 <Row className="p-5">
                     <div className="d-flex justify-content-between align-items-center">
                         <h2 style={{ margin: "0" }}>Marketplace</h2>
@@ -118,6 +119,7 @@ const DashBoard = (props) => {
                     formTypeAndData={currentFormTypeAndData}
                 />
             </Container>
+            <AppFooter />
         </>
     );
 };

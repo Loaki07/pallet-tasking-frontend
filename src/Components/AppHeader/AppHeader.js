@@ -1,12 +1,18 @@
 import React from "react";
 import { Container, Nav, Navbar, NavDropdown, Image } from "react-bootstrap";
 
-import * as constants from '../../constants/constants'
+import * as constants from "../../constants/constants";
 import "./AppHeader.css";
 
 const AppHeader = () => {
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar
+            fixed="top"
+            collapseOnSelect
+            expand="lg"
+            bg="dark"
+            variant="dark"
+        >
             <Container>
                 <Navbar.Brand href="#home">
                     <Image
@@ -19,29 +25,22 @@ const AppHeader = () => {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link href="#Approve">Open</Nav.Link>
+                    <Nav style={{ marginLeft: "auto" }}>
+                        {/* <Nav.Link href="#Approve">Open</Nav.Link>
                         <Nav.Link href="#Approve">Approve</Nav.Link>
                         <Nav.Link href="#InProgress">InProgress</Nav.Link>
-                        <Nav.Link href="#InProgress">Completed</Nav.Link>
-                        {/* <NavDropdown
-                            title="Dropdown"
+                        <Nav.Link href="#InProgress">Completed</Nav.Link> */}
+                        <NavDropdown
+                            title="Accounts"
                             id="collasible-nav-dropdown"
                         >
                             <NavDropdown.Item href="#action/3.1">
-                                Action
+                                Alice
                             </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
-                                Another action
+                                Bob
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">
-                                Something
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown> */}
+                        </NavDropdown>
                     </Nav>
                     {/* <Nav className="ml-auto">
                         <Nav.Link href="#deets">More</Nav.Link>

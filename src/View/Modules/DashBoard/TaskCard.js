@@ -16,6 +16,9 @@ const TaskCard = ({ data, showFormModal }) => {
         task_description,
     } = data;
 
+    const publisher =
+        client === constants.DEFAULT_ACCOUNT_IDS.ALICE ? "Alice" : "Bob";
+
     const attributesForCard =
         status === "Completed"
             ? {
@@ -105,17 +108,31 @@ const TaskCard = ({ data, showFormModal }) => {
                     </Card.Text>
                     <hr />
                     <Card.Text>
-                        <b>Client:</b> {client}
+                        <b>Publisher:</b> {publisher}
                     </Card.Text>
                     <Card.Text>
                         <b>TaskId:</b> {task_id}
                     </Card.Text>
                     <Card.Text>
                         <b>TaskDeadline: </b>
-                        {task_deadline}
+                        {task_deadline} days
                     </Card.Text>
                     <Card.Text>
                         <b>TaskCost:</b> {cost}
+                    </Card.Text>
+                    <Card.Text className="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div>
+                                <b>Start Date</b>
+                            </div>
+                            <small>{"31/5/2021"}</small>
+                        </div>
+                        <div>
+                            <div>
+                                <b>End Date</b>
+                            </div>
+                            <small>{"24/6/2021"}</small>
+                        </div>
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer className="card-footer justify-content-center">

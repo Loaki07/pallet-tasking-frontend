@@ -105,7 +105,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
         );
         let bob = keyring.getPair(BobFromKeyRing.address);
         let alice = keyring.getPair(AliceFromKeyRing.address);
-
+        
         console.log(`data: ${JSON.stringify(data)}`);
 
         switch (formType.type) {

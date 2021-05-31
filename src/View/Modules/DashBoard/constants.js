@@ -6,3 +6,8 @@ export const FORM_TYPES = {
     COMPLETE_TASK: { type: "completeTask", title: "Complete Task" },
     APPROVE_TASK: { type: "approveTask", title: "Approve Task" },
 };
+
+export const DEFAULT_ACCOUNT_IDS = {
+    ALICE: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    BOB: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+};

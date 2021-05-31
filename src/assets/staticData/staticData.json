@@ -7,7 +7,8 @@
         "task_deadline": 60,
         "cost": "2.7000 kUnit",
         "status": "Open",
-        "task_description": "Game Dev"
+        "task_description": "Game Dev",
+        "name": "Alice"
       },
       {
         "task_id": 9,
@@ -16,7 +17,8 @@
         "task_deadline": 0,
         "cost": 0,
         "status": "Open",
-        "task_description": "Test"
+        "task_description": "Test",
+        "name": "Bob"
       },
       {
         "task_id": 1,
@@ -25,7 +27,8 @@
         "task_deadline": 20,
         "cost": "1.5000 kUnit",
         "status": "PendingApproval",
-        "task_description": "FrontEnd"
+        "task_description": "FrontEnd",
+        "name": "Charlie"
       },
       {
         "task_id": 0,
@@ -34,7 +37,8 @@
         "task_deadline": 10,
         "cost": "1.2000 kUnit",
         "status": "Completed",
-        "task_description": "Website"
+        "task_description": "Website",
+        "name": "Dave"
       }, {
         "task_id": 8,
         "client": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
@@ -42,7 +46,8 @@
         "task_deadline": 90,
         "cost": "8.0000 kUnit",
         "status": "InProgress",
-        "task_description": "Test Task"
+        "task_description": "Test Task",
+        "name": "Eve"
       },{
         "task_id": 3,
         "client": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
@@ -50,7 +55,8 @@
         "task_deadline": 40,
         "cost": "2.1000 kUnit",
         "status": "Completed",
-        "task_description": "Machine Learning"
+        "task_description": "Machine Learning",
+        "name": "Fanney Khan"
       },
       {
         "task_id": 7,
@@ -59,7 +65,8 @@
         "task_deadline": 3,
         "cost": 0,
         "status": "Open",
-        "task_description": "Test"
+        "task_description": "Test",
+        "name": "Groot"
       },
       {
         "task_id": 2,
@@ -68,7 +75,8 @@
         "task_deadline": 30,
         "cost": "1.8000 kUnit",
         "status": "InProgress",
-        "task_description": "BackEnd"
+        "task_description": "BackEnd",
+        "name": "Hangyu"
       },
       {
         "task_id": 6,
@@ -77,7 +85,8 @@
         "task_deadline": 70,
         "cost": "3.0000 kUnit",
         "status": "Open",
-        "task_description": "Quantum Computing"
+        "task_description": "Quantum Computing",
+        "name": "Irene"
       },
       {
         "task_id": 4,
@@ -86,7 +95,8 @@
         "task_deadline": 50,
         "cost": "2.4000 kUnit",
         "status": "InProgress",
-        "task_description": "Mobile Dev"
+        "task_description": "Mobile Dev",
+        "name": "Bob Dylan"
       }
     ]  
 }
