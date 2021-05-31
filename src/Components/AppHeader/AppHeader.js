@@ -25,6 +25,12 @@ const AppHeader = () => {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav>
+                        <Nav.Link href="#Approve">Open</Nav.Link>
+                        <Nav.Link href="#Approve">Approve</Nav.Link>
+                        <Nav.Link href="#InProgress">InProgress</Nav.Link>
+                        <Nav.Link href="#InProgress">Completed</Nav.Link>
+                    </Nav>
                     <Nav style={{ marginLeft: "auto" }}>
                         {/* <Nav.Link href="#Approve">Open</Nav.Link>
                         <Nav.Link href="#Approve">Approve</Nav.Link>
