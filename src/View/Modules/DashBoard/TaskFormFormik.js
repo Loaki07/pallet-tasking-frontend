@@ -36,12 +36,16 @@ let initialValues = {
     submitButtonName: "Submit",
 };
 
-// const validationSchema = Yup.object({
-//     taskId: Yup.number(),
-//     taskDuration: Yup.number().required("Required!"),
-//     taskCost: Yup.number().required("Required!"),
-//     taskDescription: Yup.string().required("Required!"),
-// });
+const validationSchema = Yup.object({
+    requestorName: Yup.string(),
+    accountId: Yup.number(),
+    taskId: Yup.number(),
+    taskDuration: Yup.number().required("Required!"),
+    taskCost: Yup.number().required("Required!"),
+    taskDescription: Yup.string().required("Required!"),
+    isFieldDisabled: Yup.boolean(),
+    submitButtonName: Yup.string(),
+});
 
 const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
     const { api, keyring } = configForBackEnd;
@@ -163,78 +167,78 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                             <Card.Body className="form-body">
                                 <FormLabelAndInput
                                     placeholder={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? `AccountId`
                                             : ""
                                     }
                                     name="accountId"
                                     type={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? "text"
                                             : "text"
                                     }
                                     label="AccountId"
                                     helperText={""}
                                     // value={values.accountId.toString()}
-                                    isDisabled={formConfig.isFieldDisabled}
+                                    isDisabled={values.isFieldDisabled}
                                 />
                                 {formType.type !==
                                     constants.FORM_TYPES.CREATE_TASK.type && (
                                     <FormLabelAndInput
                                         placeholder={
-                                            !formConfig.isFieldDisabled
+                                            !values.isFieldDisabled
                                                 ? `TaskId`
                                                 : ""
                                         }
                                         name="taskId"
                                         type={
-                                            !formConfig.isFieldDisabled
+                                            !values.isFieldDisabled
                                                 ? "number"
                                                 : "text"
                                         }
                                         label="TaskId"
                                         helperText={""}
                                         // value={values.taskId}
-                                        isDisabled={formConfig.isFieldDisabled}
+                                        isDisabled={values.isFieldDisabled}
                                     />
                                 )}
                                 <FormLabelAndInput
                                     placeholder={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? `TaskDuration`
                                             : ""
                                     }
                                     name="taskDuration"
                                     type={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? "number"
                                             : "text"
                                     }
                                     label="Task Duration"
                                     helperText={""}
                                     // value={values.taskDuration}
-                                    isDisabled={formConfig.isFieldDisabled}
+                                    isDisabled={values.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
                                     placeholder={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? `TaskCost`
                                             : ""
                                     }
                                     name="taskCost"
                                     type={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? "number"
                                             : "text"
                                     }
                                     label="Task Cost"
                                     helperText={""}
                                     // value={values.taskCost}
-                                    isDisabled={formConfig.isFieldDisabled}
+                                    isDisabled={values.isFieldDisabled}
                                 />
                                 <FormLabelAndInput
                                     placeholder={
-                                        !formConfig.isFieldDisabled
+                                        !values.isFieldDisabled
                                             ? `TaskDescription`
                                             : ""
                                     }
@@ -243,7 +247,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                     label="Task Description"
                                     helperText={""}
                                     // value={values.taskDescription}
-                                    isDisabled={formConfig.isFieldDisabled}
+                                    isDisabled={values.isFieldDisabled}
                                 />
                             </Card.Body>
                             <Card.Footer className="d-flex justify-content-between aligin-items-center">
@@ -253,9 +257,9 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                                 <Button
                                     variant="dark"
                                     type="submit"
-                                    name={formConfig.submitButtonName}
+                                    name={values.submitButtonName}
                                 >
-                                    <b>{formConfig.submitButtonName}</b>
+                                    <b>{values.submitButtonName}</b>
                                 </Button>
                             </Card.Footer>
                         </Card>
