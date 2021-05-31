@@ -95,10 +95,10 @@ export const transactionEventHandler = ({ events = [], status }) => {
  */
 export const transactionErrorHandler = (err) => {
     console.log(`Transaction Error: ${err}`);
-    toast.danger(`Transaction Error: ${err}`, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 9000,
-    });
+    // toast.danger(`Transaction Error: ${err}`, {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //     autoClose: 9000,
+    // });
 };
 
 // Sample functions for using pallet balances
