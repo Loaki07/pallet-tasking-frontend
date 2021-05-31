@@ -1,5 +1,8 @@
 import { ApiPromise, wsProvider } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+toast.configure();
 
 export const DEFAULT_ACCOUNT_IDS = {
     ALICE: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
@@ -42,7 +45,6 @@ export const getAccountsFromKeyRing = () => {
     const keyring = new Keyring({ type: "sr25519" });
     const alice = keyring.addFromUri("//Alice");
     const bob = keyring.addFromUri("//Bob");
-
 
     return { alice, bob };
 };
@@ -94,15 +96,60 @@ export const createTaskTx = async (
     accountIdFromKeyRing,
     taskDuration,
     taskCost,
-    taskTitle,
+    taskTitle
 ) => {
     if (api === null) return;
     let transaction = await api.tx["palletTasking"]["createTask"](
         taskDuration,
         taskCost,
-        taskTitle,
+        taskTitle
     );
-    await transaction.signAndSend(accountIdFromKeyRing);
+    await transaction.signAndSend(
+        accountIdFromKeyRing,
+        ({ events = [], status }) => {
+            console.log("Transaction status:", status.type);
+            toast.warning(`Transaction status: ${status.type}`, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 9000,
+            });
+
+            if (status.isInBlock) {
+                console.log("Included at block hash", status.asInBlock.toHex());
+                console.log("Events:");
+                toast.info(
+                    `Included at block hash ${status.asInBlock.toHex()}`,
+                    {
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 3000,
+                    }
+                );
+
+                events.forEach(
+                    ({ event: { data, method, section }, phase }) => {
+                        toast.warning(`\t\t${section}:${method}`, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            autoClose: 9000,
+                        });
+                        console.log(
+                            "\t",
+                            phase.toString(),
+                            `: ${section}.${method}`,
+                            data.toString()
+                        );
+                    }
+                );
+            } else if (status.isFinalized) {
+                console.log("Finalized block hash", status.asFinalized.toHex());
+                toast.success(
+                    `Finalized block hash ${status.asFinalized.toHex()}`,
+                    {
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 3000,
+                    }
+                );
+            }
+        }
+    );
 };
 
 /**
@@ -169,14 +216,16 @@ export const taskStorageQuery = async (api, taskId) => {
 /**
  * Function to get all the tasks
  * from the chain storage
- * @param {*} api 
+ * @param {*} api
  * @returns allTasks Array
  */
 export const getAllTasks = async (api) => {
     if (api === null) return;
     let taskCountFromBackEnd = await taskCountQuery(api);
 
-    console.log(`Getting All Tasks, TaskCount at Chain: ${taskCountFromBackEnd}`);
+    console.log(
+        `Getting All Tasks, TaskCount at Chain: ${taskCountFromBackEnd}`
+    );
 
     let taskArr = [];
     let index;
@@ -188,7 +237,7 @@ export const getAllTasks = async (api) => {
 
     console.log(`Getting All Tasks, Total Tasks from Chain: ${taskArr.length}`);
     return taskArr;
-}
+};
 
 // Testing counter functions in pallet tasking
 
@@ -262,7 +311,7 @@ export const transferUsingPalletTasking = async (
  * Listening to events on the chain
  * @param {*} api
  */
-export const handleOnChainEvents = async (api) => {
+export const handleOnChainEvents = async (api, toast) => {
     if (api === null) return;
     api.query.system.events((events) => {
         console.log(`\nReceived ${events.length} events:`);
@@ -279,6 +328,15 @@ export const handleOnChainEvents = async (api) => {
                     event.method
                 }:: (phase=${phase.toString()})`
             );
+            // toast.success(
+            //     `\t\t${event.section}:${
+            //         event.method
+            //     }:: (phase=${phase.toString()})`,
+            //     {
+            //         position: toast.POSITION.TOP_RIGHT,
+            //         autoClose: 9000,
+            //     }
+            // );
             console.log(`MetaData \t\t${event.meta.documentation.toString()}`);
 
             // Loop through each of the parameters, displaying the type and data

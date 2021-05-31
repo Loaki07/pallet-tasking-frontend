@@ -13454,6 +13454,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-toastify@npm:^7.0.4":
+  version: 7.0.4
+  resolution: "react-toastify@npm:7.0.4"
+  dependencies:
+    clsx: ^1.1.1
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 20e82333a0e1235853734e3d190a61473f8b58736a1249079dba8f35154a3465dbb074a9f90ebb18dc34b9dbbde54280d956c6e8a02dbf68e723cd9fb5325bb9
+  languageName: node
+  linkType: hard
+
 "react-transition-group@npm:^4.4.1":
   version: 4.4.1
   resolution: "react-transition-group@npm:4.4.1"
@@ -15309,6 +15321,7 @@ resolve@1.18.1:
     react-router-bootstrap: ^0.25.0
     react-router-dom: ^5.2.0
     react-scripts: ^4.0.2
+    react-toastify: ^7.0.4
     redux: ^4.1.0
     redux-devtools-extension: ^2.13.9
     redux-persist: ^6.0.0

@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
     submitButtonName: Yup.string(),
 });
 
-const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
+const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
     const { api, keyring } = configForBackEnd;
     const { formType, data } = formTypeAndData;
 
@@ -57,6 +57,10 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
                 initialValues.requestorName = "Alice";
                 initialValues.accountId =
                     palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE;
+                initialValues.taskId = "";
+                initialValues.taskDuration = "";
+                initialValues.taskCost = "";
+                initialValues.taskDescription = "";
                 initialValues.isFieldDisabled = false;
                 initialValues.submitButtonName = "Create";
                 return;
@@ -148,11 +152,13 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData }) => {
             <Formik
                 initialValues={initialValues}
                 // validationSchema={!validationSchema && ""}
+                enableReinitialize
                 onSubmit={async (data, { setSubmitting, resetForm }) => {
                     setSubmitting(true);
                     handleFormSubmit(data);
                     setSubmitting(false);
                     resetForm();
+                    handleClose();
                 }}
             >
                 {({

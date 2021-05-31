@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import AppHeader from "../../../Components/AppHeader/AppHeader";
 import { useSubstrate } from "../../../substrate-lib";
@@ -13,6 +14,9 @@ import TaskCard from "./TaskCard";
 import TaskFormFormik from "./TaskFormFormik";
 import * as constants from "./constants";
 import staticData from "../../../assets/staticData/staticData.json";
+import "react-toastify/dist/ReactToastify.min.css";
+
+toast.configure();
 
 const DashBoard = (props) => {
     const { api, keyring } = useSubstrate();
@@ -32,7 +36,7 @@ const DashBoard = (props) => {
     useEffect(() => {
         const init = async () => {
             try {
-                palletTaskingFunctions.handleOnChainEvents(api);
+                // palletTaskingFunctions.handleOnChainEvents(api, toast);
                 const getTasksResult = await palletTaskingFunctions.getAllTasks(
                     api
                 );
@@ -133,6 +137,7 @@ const TaskModal = ({
                 <TaskFormFormik
                     configForBackEnd={configForBackEnd}
                     formTypeAndData={formTypeAndData}
+                    handleClose={handleClose}
                 />
             </Modal.Body>
         </Modal>
