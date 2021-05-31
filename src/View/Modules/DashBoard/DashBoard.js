@@ -85,7 +85,10 @@ const DashBoard = (props) => {
     return (
         <>
             <AppHeader />
-            <Container className="dashboard-container" style={{marginTop: "50px"}}>
+            <Container
+                className="dashboard-container"
+                style={{ marginTop: "50px" }}
+            >
                 <Row className="p-5">
                     <div className="d-flex justify-content-between align-items-center">
                         <h2 style={{ margin: "0" }}>Marketplace</h2>
@@ -98,6 +101,11 @@ const DashBoard = (props) => {
                     </div>
                 </Row>
                 <Row>
+                    {!tasks.length && (
+                        <span style={{ marginLeft: "45px" }} className="p-2">
+                            Showing Demo Data, You can create a new Task!
+                        </span>
+                    )}
                     {tasks.length
                         ? tasks.map((task, index) => (
                               <TaskCard
