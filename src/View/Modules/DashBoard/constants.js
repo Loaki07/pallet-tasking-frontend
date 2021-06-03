@@ -11,3 +11,5 @@ export const DEFAULT_ACCOUNT_IDS = {
     ALICE: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
     BOB: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
 };
+
+export const DOT_MARKETPLACE = `http://15.206.210.93:8001/`;

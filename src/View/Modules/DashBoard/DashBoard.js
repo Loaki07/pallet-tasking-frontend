@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -87,9 +87,9 @@ const DashBoard = (props) => {
             <AppHeader />
             <Container
                 className="dashboard-container"
-                style={{ marginTop: "50px" }}
+                style={{ marginTop: "50px", marginBottom: "30px" }}
             >
-                <Row className="p-5">
+                <Row className="p-4">
                     <div className="d-flex justify-content-between align-items-center">
                         <h2 style={{ margin: "0" }}>Marketplace</h2>
                         <Button
@@ -99,7 +99,30 @@ const DashBoard = (props) => {
                             Create New Task
                         </Button>
                     </div>
+                    <Card
+                        style={{
+                            borderRadius: "20px",
+                            background: "yellow",
+                            fontSize: "24px",
+                            textAlign: "center",
+                            marginTop: "10px",
+                        }}
+                        className="p-3"
+                    >
+                        <h4>
+                            Please visit{" "}
+                            <a
+                                href={constants.DOT_MARKETPLACE}
+                                target="_blank"
+                                style={{ color: "red" }}
+                            >
+                                Dot Marketplace
+                            </a>{" "}
+                            our updated App
+                        </h4>
+                    </Card>
                 </Row>
+
                 <Row>
                     {!tasks.length && (
                         <span style={{ marginLeft: "45px" }} className="p-2">

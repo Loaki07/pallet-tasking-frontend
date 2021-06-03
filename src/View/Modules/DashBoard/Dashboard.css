@@ -1,8 +1,8 @@
 .dashboard-container {
-    height: 100vh;
-  }
-  
-  .task-card {
+    height: 90vh;
+}
+
+.task-card {
     margin: 5px;
     padding: 10px;
     height: 370px;
@@ -11,20 +11,19 @@
     /* box-shadow: 4px 4px 4px rgb(151 167 195 / 44%), -4px -4px 4px #fff; */
     text-decoration: none;
     gap: 10px;
-  }
-  .card-header {
+}
+.card-header {
     display: flex;
     justify-content: space-between;
-  }
-  .btn-margin {
+}
+.btn-margin {
     margin: 0 1rem;
-  }
-  span {
+}
+span {
     font-size: 1.2rem;
     font-weight: bold;
-  }
-  .card-footer {
+}
+.card-footer {
     background-color: white;
     display: contents;
-  }
-  
+}
