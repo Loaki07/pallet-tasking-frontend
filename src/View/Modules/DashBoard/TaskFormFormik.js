@@ -53,7 +53,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
 
     const configForForm = () => {
         switch (formType.type) {
-            case constants.FORM_TYPES.CREATE_TASK.type:
+            case `Create New Task`:
                 initialValues.requestorName = "Alice";
                 initialValues.accountId =
                     palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE;
@@ -64,8 +64,8 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                 initialValues.isFieldDisabled = false;
                 initialValues.submitButtonName = "Create";
                 return;
-            case constants.FORM_TYPES.BID_FOR_TASK.type:
-            case constants.FORM_TYPES.COMPLETE_TASK.type:
+            case `Bid`:
+            case `Complete`:
                 initialValues.requestorName = "Bob";
                 initialValues.accountId =
                     palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.BOB;
@@ -80,7 +80,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                         : "Complete";
                 return;
 
-            case constants.FORM_TYPES.APPROVE_TASK.type:
+            case `Approve`:
                 initialValues.requestorName = "Alice";
                 initialValues.accountId =
                     palletTaskingFunctions.DEFAULT_ACCOUNT_IDS.ALICE;
@@ -105,7 +105,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
         );
         let bob = keyring.getPair(BobFromKeyRing.address);
         let alice = keyring.getPair(AliceFromKeyRing.address);
-        
+
         console.log(`data: ${JSON.stringify(data)}`);
 
         switch (formType.type) {

@@ -63,20 +63,21 @@ const DashBoard = (props) => {
     }, [api?.query.palletTasking]);
 
     const showFormModal = (e, data) => {
-        const formTypeOnClick = e.target.name;
+        const formTypeOnClick = e.target.innerText;
+
         const title =
-            formTypeOnClick === constants.FORM_TYPES.CREATE_TASK.type
+            formTypeOnClick === `Create New Task`
                 ? constants.FORM_TYPES.CREATE_TASK.title
-                : formTypeOnClick === constants.FORM_TYPES.BID_FOR_TASK.type
+                : formTypeOnClick === `Bid`
                 ? constants.FORM_TYPES.BID_FOR_TASK.title
-                : formTypeOnClick === constants.FORM_TYPES.COMPLETE_TASK.type
+                : formTypeOnClick === `Complete`
                 ? constants.FORM_TYPES.COMPLETE_TASK.title
-                : formTypeOnClick === constants.FORM_TYPES.APPROVE_TASK.type
+                : formTypeOnClick === `Approve`
                 ? constants.FORM_TYPES.APPROVE_TASK.title
                 : "Form";
 
         setCurrentFormTypeAndData({
-            formType: { type: e.target.name, title },
+            formType: { type: formTypeOnClick, title },
             data: data,
         });
         handleShow();
