@@ -103,7 +103,7 @@ const DashBoard = (props) => {
                     <Card
                         style={{
                             borderRadius: "20px",
-                            background: "yellow",
+                            background: "#ffc107",
                             fontSize: "24px",
                             textAlign: "center",
                             marginTop: "10px",
