@@ -75,9 +75,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                 initialValues.taskDescription = data.task_description;
                 initialValues.isFieldDisabled = true;
                 initialValues.submitButtonName =
-                    formType.type === constants.FORM_TYPES.BID_FOR_TASK.type
-                        ? "Bid"
-                        : "Complete";
+                    formType.type === `Bid` ? "Bid" : "Complete";
                 return;
 
             case `Approve`:
