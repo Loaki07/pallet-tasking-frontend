@@ -1,4 +1,7 @@
 export const GET_TASKS = "GET_TASKS";
+export const API_CALL = "API CALL";
+export const END_API_CALL = "END API CALL";
+export const SET_FILE_URL = "SET_FILE_URL";
 
 export const FORM_TYPES = {
     CREATE_TASK: { type: "createTask", title: "Create Task" },

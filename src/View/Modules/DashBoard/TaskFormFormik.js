@@ -24,6 +24,7 @@ import "./TaskFormFormik.css";
 import FormErrorMessage from "./FormErrorMessage";
 import * as palletTaskingFunctions from "../../../palletTaskingFunctions";
 import * as constants from "./constants";
+import * as actionCreators from "./actionCreators";
 
 let initialValues = {
     requestorName: "",
@@ -141,6 +142,14 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
         }
     };
 
+    const handleFileData = (fileData) => {
+        let file = new FormData();
+        file.set("file", fileData);
+        console.log(fileData);
+        console.log(file);
+        actionCreators.apiCallToUploadFile("hi");
+    };
+
     useEffect(() => {
         configForForm();
     }, []);
@@ -153,7 +162,8 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                 enableReinitialize
                 onSubmit={async (data, { setSubmitting, resetForm }) => {
                     setSubmitting(true);
-                    handleFormSubmit(data);
+                    handleFileData(data.file);
+                    // handleFormSubmit(data);
                     setSubmitting(false);
                     resetForm();
                     handleClose();
@@ -165,6 +175,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                     isSubmitting,
                     resetForm,
                     handleSubmit,
+                    setFieldValue,
                 }) => (
                     <FormikForm>
                         <Card className="text-left form p-1">
@@ -253,6 +264,23 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
                                     // value={values.taskDescription}
                                     isDisabled={values.isFieldDisabled}
                                 />
+                                {
+                                    <FormLabelAndInput
+                                        placeholder={""}
+                                        name="uploadedFile"
+                                        type="file"
+                                        label="Upload File"
+                                        helperText={""}
+                                        // value={values.taskDescription}
+                                        // isDisabled={values.isFieldDisabled}
+                                        onChange={(e) =>
+                                            setFieldValue(
+                                                "file",
+                                                e.target.files[0]
+                                            )
+                                        }
+                                    />
+                                }
                             </Card.Body>
                             <Card.Footer className="d-flex justify-content-between aligin-items-center">
                                 <Button variant="warning" onClick={resetForm}>

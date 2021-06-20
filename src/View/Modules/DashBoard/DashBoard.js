@@ -57,9 +57,9 @@ const DashBoard = (props) => {
                 console.log(`catchError at useEffect : ${error}`);
             }
         };
-        setInterval(() => {
-            init();
-        }, 5000);
+        // setInterval(() => {
+        //     init();
+        // }, 5000);
     }, [api?.query.palletTasking]);
 
     const showFormModal = (e, data) => {
