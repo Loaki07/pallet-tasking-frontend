@@ -147,7 +147,7 @@ const TaskFormFormik = ({ configForBackEnd, formTypeAndData, handleClose }) => {
         file.set("file", fileData);
         console.log(fileData);
         console.log(file);
-        actionCreators.apiCallToUploadFile("hi");
+        actionCreators.apiCallToUploadFile(file);
     };
 
     useEffect(() => {

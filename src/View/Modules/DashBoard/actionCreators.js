@@ -12,7 +12,6 @@ export const setTasksFromBackEnd = (data) => {
 };
 
 export const apiCallToUploadFile = (data) => {
-    console.log(data);
     const baseUrl = "http://127.0.0.1:9000";
     axios
         .get(baseUrl)
@@ -22,14 +21,14 @@ export const apiCallToUploadFile = (data) => {
         .catch(function (error) {
             console.log(error);
         });
+        axios
+            .post(`${baseUrl}/api/upload-file`, data)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     return async (dispatch) => {
-        // axios
-        //     .post("/api/upload-file", data)
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
     };
 };
