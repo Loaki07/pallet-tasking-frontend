@@ -12,4 +12,4 @@ export const DEFAULT_ACCOUNT_IDS = {
     BOB: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
 };
 
-export const DOT_MARKETPLACE = `http://15.206.210.93:8001/`;
+export const DOT_MARKETPLACE = `http://65.2.26.225:8001/`;
